@@ -1,7 +1,7 @@
 import sys
 import networkx as nx
 import random as r
-from .. import parse
+import parse
 
 if __name__ == '__main__':
     fl = sys.argv[1]
