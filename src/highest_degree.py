@@ -2,8 +2,6 @@ import sys
 import networkx as nx
 import heapq
 
-import parse
-
 def choose_nodes_from_graph(graph, num_players, num_seeds):
     degrees = nx.degree(g)
     # Just choose the num_seeds highest-degree nodes
