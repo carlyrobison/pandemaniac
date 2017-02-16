@@ -1,6 +1,6 @@
 import sys
 import networkx as nx
-import random as r
+import random
 import parse
 
 if __name__ == '__main__':
@@ -12,4 +12,4 @@ if __name__ == '__main__':
     nodes = nodes(g)
     for i in range(50):
         for x in range(num_seeds):
-            print "%" % nodes[randInt()]
+            print "%" % nodes[random.randint(0, len(nodes))]
