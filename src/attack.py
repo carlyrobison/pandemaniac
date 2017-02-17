@@ -8,5 +8,4 @@ def attackNodes(graph, targets, allottment):
         for neighbor in all_neighbors(graph, node):
             adj[neighbor] += 1
 
-    return top allottment of adj
-    
+    return sorted(adj, key=adj.get, reverse=True)[:allottment]
