@@ -24,3 +24,8 @@ def write_choices_to_file(filename, choices):
         for lst in choices:
             for choice in lst:
                 f.write(str(choice) + '\n')
+
+def get_strategies(filename):
+    with open(filename) as infile:
+        data = json.load(infile)
+    return data

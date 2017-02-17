@@ -16,6 +16,8 @@ if __name__ == '__main__':
         import random_top_nodes as s
     elif strategy == 'top':
         import pick_top_nodes as s
+    elif strategy == 'surroundta':
+        import surround_ta as s
 
     rounds = []
     for i in range(50):
