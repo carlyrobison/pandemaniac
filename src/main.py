@@ -18,6 +18,8 @@ if __name__ == '__main__':
         import pick_top_nodes as s
     elif strategy == 'surroundta':
         import surround_ta as s
+    elif strategy == 'attackTop':
+        import AttackTopDegree as s
 
     rounds = []
     for i in range(50):
