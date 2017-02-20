@@ -39,6 +39,10 @@ def load_graph(fl):
         js_graph = json.load(infile)
     return js_graph
 
+
+## run from the src directory as
+# python run_simulation.py ../data/wednesday/4.5.1-RogueEngineers.json ../data/wednesday/4.5.1.json
+
 if __name__ == '__main__':
     fl = sys.argv[1]
     graph = load_graph(fl)
