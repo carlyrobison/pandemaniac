@@ -4,7 +4,7 @@ import random as r
 import parse
 import heapq
 
-FACTOR = 4
+FACTOR = 1
 
 # Get top n ranked nodes from the given dictionary of values
 def getTopNodes(vals, n): # Taken from rankmaniac code
