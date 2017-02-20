@@ -22,8 +22,13 @@ if __name__ == '__main__':
         import AttackTopDegree as s
     elif strategy == 'closeness':
         import closeness as s
+    elif strategy == 'randomcloseness':
+        import random_closeness as s
+    elif strategy == 'hardcoded':
+        import hardcoded as s
 
+    setup = s.setup(g, num_players, num_seeds)
     rounds = []
     for i in range(50):
-        rounds.append(s.choose_nodes_from_graph(g, num_players, num_seeds))
+        rounds.append(s.choose_nodes_from_graph(g, num_players, num_seeds, setup))
     parse.write_choices_to_file('../' + fl.strip('.json') + '_choices.txt', rounds)

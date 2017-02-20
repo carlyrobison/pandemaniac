@@ -6,11 +6,14 @@ import heapq
 
 FACTOR = 1
 
+def setup(g, num_players, num_seeds):
+    return 1
+
 # Get top n ranked nodes from the given dictionary of values
 def getTopNodes(vals, n): # Taken from rankmaniac code
     return heapq.nlargest(n, vals, key=vals.__getitem__)
 
-def choose_nodes_from_graph(g, num_players, num_seeds):
+def choose_nodes_from_graph(g, num_players, num_seeds, setup):
     degrees = nx.degree(g)
     top_nodes = getTopNodes(degrees, num_seeds * FACTOR * num_players)
     play = r.sample(top_nodes, num_seeds)
