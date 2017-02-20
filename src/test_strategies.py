@@ -4,9 +4,11 @@ import sys
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import random
 from copy import deepcopy
+
+import highest_degree as hd
+import surround_ta as sta
 
 NUM_MATCHES = 50
 
@@ -40,29 +42,20 @@ def load_graph(fl):
     return js_graph
 
 
-## run from the src directory as
-# python run_simulation.py ../data/wednesday/4.5.1-RogueEngineers.json ../data/wednesday/4.5.1.json
+## run from the root directory as
+# python src/test_strategies.py data/test_data/2.10.10.json
 
 if __name__ == '__main__':
     fl = sys.argv[1]
     js_graph = load_graph(fl)
-    strategies = parse.get_strategies(fl)
-    players = strategies.keys()
+    nx_graph = nx.from_dict_of_lists(js_graph)
+    num_players, num_seeds, _ = parse.get_game_info_from_filename(fl)
 
     for i in range(NUM_MATCHES):
         # make the output to simulate
         d = {}
-        for n in players:
-            d[n] = strategies[n][i]
+        d['degree'] = hd.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
+        d['surround_ta'] = sta.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
         # simulate it?
         res = simulate_game(js_graph, d)
         print i, res
-
-# ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)), interval=25, blit=True, init_func=init)
-
-# ani.save('double_pendulum.mp4', fps=15)
-try:
-    plt.show()
-except:
-    pass
-
