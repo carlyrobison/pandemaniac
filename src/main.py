@@ -21,7 +21,7 @@ if __name__ == '__main__':
     elif strategy == 'attackTop':
         import AttackTopDegree as s
     elif strategy == 'closeness':
-        import highest_closeness as s
+        import closeness as s
 
     rounds = []
     for i in range(50):
