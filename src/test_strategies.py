@@ -8,7 +8,8 @@ import random
 from copy import deepcopy
 
 import highest_degree as hd
-import surround_ta as sta
+# import surround_ta as sta
+import pick_top_nodes as ptn
 
 NUM_MATCHES = 50
 
@@ -55,7 +56,7 @@ if __name__ == '__main__':
         # make the output to simulate
         d = {}
         d['degree'] = hd.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
-        d['surround_ta'] = sta.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
+        d['currentflow'] = ptn.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
         # simulate it?
         res = simulate_game(js_graph, d)
         print i, res
