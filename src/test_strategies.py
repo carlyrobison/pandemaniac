@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import random
 from copy import deepcopy
 
-import highest_degree as hd
-import random_closeness as rc
+import random_top_nodes as st1
+import random_closeness as st2
 import closeness as c
 
 NUM_MATCHES = 50
@@ -52,28 +52,15 @@ if __name__ == '__main__':
     nx_graph = nx.from_dict_of_lists(js_graph)
     num_players, num_seeds, _ = parse.get_game_info_from_filename(fl)
 
-    d = {}
-    d['degree'] = hd.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
-    d['closeness'] = c.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
-    # simulate it?
-    res = simulate_game(js_graph, d)
-    print res
-    print d
+    setup1 = st1.setup(nx_graph, num_players, num_seeds)
+    setup2 = st2.setup(nx_graph, num_players, num_seeds)
 
     for i in range(NUM_MATCHES):
         # make the output to simulate
         d = {}
-        d['degree'] = hd.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
-        d['random_closeness'] = rc.choose_nodes_from_graph(nx_graph, num_players, num_seeds)
+
+        d['strategy1'] = st1.choose_nodes_from_graph(nx_graph, num_players, num_seeds, setup1)
+        d['strategy2'] = st2.choose_nodes_from_graph(nx_graph, num_players, num_seeds, setup2)
         # simulate it?
         res = simulate_game(js_graph, d)
-        print res
-
-        rogue_result = res['random_closeness']
-        rogue_ones = True # pun on Rogue One movie, means rogue won
-        for r in res:
-            if r != 'random_closeness' and res[r] >= rogue_result:
-                rogue_ones = False
-        if rogue_ones: # if we won, draw the graph
-            print d
-
+        print res['strategy1'] > res['strategy2']
