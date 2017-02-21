@@ -9,6 +9,10 @@ if __name__ == '__main__':
     fl = sys.argv[1]
     strategy = sys.argv[2]
 
+    appendOut = ''
+    if len(sys.argv) > 3:
+        appendOut = '_' + sys.argv[3] + '_'
+
     num_players, num_seeds, unique_id = parse.get_game_info_from_filename(fl)
     g = parse.parse_graph(fl)
 
@@ -31,4 +35,4 @@ if __name__ == '__main__':
     rounds = []
     for i in range(50):
         rounds.append(s.choose_nodes_from_graph(g, num_players, num_seeds, setup))
-    parse.write_choices_to_file('../' + fl.strip('.json') + '_choices.txt', rounds)
+    parse.write_choices_to_file('../' + fl.strip('.json') + '_choices' + appendOut + '.txt', rounds)
