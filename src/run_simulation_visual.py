@@ -31,7 +31,20 @@ def simulate_game(adj_list, node_mappings):
         # then display the round
         generation += 1
 
-    return sim.get_result(node_mappings.keys(), node_color)
+    return sim.get_result(node_mappings.keys(), node_color), get_end_nodes(node_mappings.keys(), node_color)
+
+def get_end_nodes(colors, node_color):
+  """
+  get_end_config
+  Get the resulting mapping of colors to the nodes of that color.
+  """
+  color_nodes = {}
+  for color in colors:
+    color_nodes[color] = []
+  for node, color in node_color.items():
+    if color is not None:
+      color_nodes[color].append(node)
+  return color_nodes
 
 def load_graph(fl):
     filename = ''.join(fl.split('-RogueEngineers'))
@@ -46,7 +59,7 @@ def draw_graph(G, node_mappings, position):
         nodezz += node_mappings[name]
         for n in node_mappings[name]:
             nodezz += G.neighbors(n)
-    nx.draw_networkx_nodes(G, pos=position, node_size=10, node_color='r', alpha=.1, with_labels=False, font_size=6, nodelist=nodezz) #, with_labels=True)
+    nx.draw_networkx_nodes(G, pos=position, node_size=10, node_color='k', alpha=.1, with_labels=False, font_size=6, nodelist=nodezz) #, with_labels=True)
 
     edges = set()
     num_players = len(node_mappings)
@@ -75,7 +88,7 @@ if __name__ == '__main__':
     players = strategies.keys()
     nxgraph = nx.from_dict_of_lists(graph)
     print "making layout"
-    pos = nx.spring_layout(nxgraph)
+    pos = nx.random_layout(nxgraph)
 
     print "commencing simulation"
     for i in range(1):
@@ -87,15 +100,9 @@ if __name__ == '__main__':
         # show the start conditions
         print "starting choices:", d
         draw_graph(nxgraph, d, pos)
-        try:
-            plt.show()
-        except:
-            plt.hide()
-            break
-        print "graph shown"
 
         # simulate it?
-        res = simulate_game(graph, d)
+        res, end_nodes = simulate_game(graph, d)
         print i, res
         rogue_result = res['RogueEngineers']
         rogue_ones = True # pun on Rogue One movie, means rogue won
@@ -103,13 +110,14 @@ if __name__ == '__main__':
             if r != 'RogueEngineers' and 10 > rogue_result:
                 rogue_ones = False
         #if rogue_ones: # if we won, draw the graph
-        # if True:
-        #     draw_graph(nxgraph, d, pos)
-        # try:
-        #     plt.show()
-        # except:
-        #     plt.hide()
-        #     break
+        if True:
+            plt.figure()
+            draw_graph(nxgraph, end_nodes, pos)
+        try:
+            plt.show()
+        except:
+            plt.hide()
+            break
 
 
 
