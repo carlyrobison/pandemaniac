@@ -48,32 +48,52 @@ def draw_graph(G, node_mappings, position):
             nodezz += G.neighbors(n)
     nx.draw_networkx_nodes(G, pos=position, node_size=10, node_color='r', alpha=.1, with_labels=False, font_size=6, nodelist=nodezz) #, with_labels=True)
 
-    edges = []
+    edges = set()
+    num_players = len(node_mappings)
+    i = 0
+    # draw selected nodes
     for name in node_mappings:
         if name == 'RogueEngineers':
             nx.draw_networkx_nodes(G, pos=position, node_size=100, alpha=.5, nodelist=node_mappings[name], with_labels=True, node_color='g', font_size=6)
         else:
-            nx.draw_networkx_nodes(G, pos=position, node_size=100, alpha=.5, nodelist=node_mappings[name], with_labels=True, node_color='b', font_size=6)
-        edges += G.edges(node_mappings[name])
-    nx.draw_networkx_edges(G, pos, edgelist=edges, alpha=.1)
+            nx.draw_networkx_nodes(G, pos=position, node_size=100, alpha=.5, nodelist=node_mappings[name], with_labels=True, node_color=plt.get_cmap('gist_rainbow')(float(i)/num_players), font_size=6)
+        edges |= set(G.edges(node_mappings[name]))
+        i += 1
+    # and selected node edges
+    nx.draw_networkx_edges(G, pos, edgelist=list(edges), alpha=.1)
+    #nx.draw_networkx_edges(G, pos, alpha=.1)
 
 
 ## run from the src directory as
 # python run_simulation.py ../data/wednesday/4.5.1-RogueEngineers.json ../data/wednesday/4.5.1.json
 
 if __name__ == '__main__':
+    print "loading data and strategies"
     fl = sys.argv[1]
     graph = load_graph(fl)
     strategies = parse.get_strategies(fl)
     players = strategies.keys()
     nxgraph = nx.from_dict_of_lists(graph)
+    print "making layout"
     pos = nx.spring_layout(nxgraph)
 
-    for i in range(NUM_MATCHES):
+    print "commencing simulation"
+    for i in range(1):
+        print "simulation", i
         # make the output to simulate
         d = {}
         for n in players:
             d[n] = strategies[n][i]
+        # show the start conditions
+        print "starting choices:", d
+        draw_graph(nxgraph, d, pos)
+        try:
+            plt.show()
+        except:
+            plt.hide()
+            break
+        print "graph shown"
+
         # simulate it?
         res = simulate_game(graph, d)
         print i, res
@@ -82,13 +102,14 @@ if __name__ == '__main__':
         for r in res:
             if r != 'RogueEngineers' and 10 > rogue_result:
                 rogue_ones = False
-        if rogue_ones: # if we won, draw the graph
-            draw_graph(nxgraph, d, pos)
-        try:
-            plt.show()
-        except:
-            plt.hide()
-            break
+        #if rogue_ones: # if we won, draw the graph
+        # if True:
+        #     draw_graph(nxgraph, d, pos)
+        # try:
+        #     plt.show()
+        # except:
+        #     plt.hide()
+        #     break
 
 
 
