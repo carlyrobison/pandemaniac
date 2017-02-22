@@ -3,7 +3,7 @@ import networkx as nx
 import heapq
 import random as r
 
-FACTOR = 1
+FACTOR = 5
 
 # Get top n ranked nodes from the given dictionary of values
 def getTopNodes(vals, n): # Taken from rankmaniac code
@@ -14,6 +14,6 @@ def setup(g, num_players, num_seeds):
 
 # Picks the highest closeness-centrality nodes in the graph.
 def choose_nodes_from_graph(g, num_players, num_seeds, setup):
-    top_nodes = getTopNodes(setup, num_seeds * FACTOR * num_players)
+    top_nodes = getTopNodes(setup, num_seeds * FACTOR)
     play = r.sample(top_nodes, num_seeds)
     return play
