@@ -7,9 +7,18 @@ import matplotlib.pyplot as plt
 import random
 from copy import deepcopy
 
-import random_top_nodes as st1
-import random_closeness as st2
+import random_top_nodes as rhd
+import random_closeness as rc
+import highest_degree as hd
 import closeness as c
+import AttackTopDegree as a
+import surround_ta as st
+import random_nodes as rs
+import grab_cluster as gc
+
+
+# STRATEGIES = [rs, rhd, hd, a, st, rc, c]
+STRATEGIES = [gc]
 
 NUM_MATCHES = 50
 
@@ -47,20 +56,33 @@ def load_graph(fl):
 # python src/test_strategies.py data/test_data/2.10.10.json
 
 if __name__ == '__main__':
+    print "loading data and strategies"
     fl = sys.argv[1]
-    js_graph = load_graph(fl)
-    nx_graph = nx.from_dict_of_lists(js_graph)
-    num_players, num_seeds, _ = parse.get_game_info_from_filename(fl)
+    graph = load_graph(fl)
+    strategies = parse.get_strategies(fl)
+    players = strategies.keys()
+    nxgraph = nx.from_dict_of_lists(graph)
 
-    setup1 = st1.setup(nx_graph, num_players, num_seeds)
-    setup2 = st2.setup(nx_graph, num_players, num_seeds)
+    num_players, num_seeds, _ = parse.get_game_info_from_filename(fl.split("-")[0])
 
-    for i in range(NUM_MATCHES):
+    print "commencing simulation"
+    for i in range(10):
+        print "simulation", i
         # make the output to simulate
         d = {}
+        for n in players:
+            d[n] = strategies[n][i]
 
-        d['strategy1'] = st1.choose_nodes_from_graph(nx_graph, num_players, num_seeds, setup1)
-        d['strategy2'] = st2.choose_nodes_from_graph(nx_graph, num_players, num_seeds, setup2)
-        # simulate it?
-        res = simulate_game(js_graph, d)
-        print res['strategy1'] > res['strategy2']
+        for s in STRATEGIES:
+            # spoof our own strategy
+            setup = s.setup(nxgraph, num_players, num_seeds)
+            d['RogueEngineers'] = s.choose_nodes_from_graph(nxgraph, num_players, num_seeds, setup)
+            # show the start conditions
+            print "starting choices:", d['RogueEngineers']
+        
+            # simulate it?
+            res = simulate_game(graph, d)
+            print 'RogueEngineers', res['RogueEngineers']
+            print res
+            #print res['strategy1'] > res['strategy2'], res
+

@@ -5,6 +5,8 @@ import parse
 import heapq
 
 # Beat the TA that picks the top degree nodes
+def setup(g, num_players, num_seeds):
+    return nx.degree(g)
 
 # Get top n ranked nodes from the given dictionary of values
 def getTopNodes(vals, n): # Taken from rankmaniac code
@@ -21,8 +23,8 @@ def getNeighbors(g, node, n, avoid):
 	return r.sample(valid, min(n, len(valid)))
 
 # Picks the highest degree nodes in the graph.
-def choose_nodes_from_graph(g, num_players, num_seeds):
-    degrees = nx.degree(g)
+def choose_nodes_from_graph(g, num_players, num_seeds, setup):
+    degrees = setup
     top_nodes = getTopNodes(degrees, num_seeds)
     num_left = num_seeds
     play = set([])

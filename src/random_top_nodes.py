@@ -4,7 +4,7 @@ import random as r
 import parse
 import heapq
 
-FACTOR = 1
+FACTOR = 5
 
 def setup(g, num_players, num_seeds):
     return 1
@@ -15,7 +15,7 @@ def getTopNodes(vals, n): # Taken from rankmaniac code
 
 def choose_nodes_from_graph(g, num_players, num_seeds, setup):
     degrees = nx.degree(g)
-    top_nodes = getTopNodes(degrees, num_seeds * FACTOR * num_players)
+    top_nodes = getTopNodes(degrees, num_seeds * FACTOR)
     play = r.sample(top_nodes, num_seeds)
     return play
 

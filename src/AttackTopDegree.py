@@ -26,7 +26,7 @@ def attackNodes(graph, targets, allottment):
     return choosen
 
 def setup(g, n, s):
-    return ""
+    return pick_top_nodes.choose_nodes_from_graph(g, n, s, pick_top_nodes.setup(g, n, s))
 
 def hasSupport(graph, node, choosen, enemy):
 
@@ -36,6 +36,4 @@ def hasSupport(graph, node, choosen, enemy):
     return support >= opposition
 
 def choose_nodes_from_graph(graph, num_players, num_seeds, setup):
-    targets = pick_top_nodes.choose_nodes_from_graph(graph, num_players, num_seeds)
-
-    return attackNodes(graph, targets, num_seeds)
+    return attackNodes(graph, setup, num_seeds)
