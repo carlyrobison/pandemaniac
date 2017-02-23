@@ -15,7 +15,7 @@ def setup(g, num_players, num_seeds):
 # Picks the highest closeness-centrality nodes in the graph.
 def choose_nodes_from_graph(g, num_players, num_seeds, setup):
 	idx = random.randint(g.number_of_nodes() - num_seeds)
-    top_nodes = setup[idx: idx + num_seeds * FACTOR]
+    top_nodes = setup[idx: (idx + num_seeds * FACTOR)]
     play = r.sample(top_nodes, num_seeds)
     return play =
     #return getTopNodes(setup, num_seeds)

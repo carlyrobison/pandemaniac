@@ -14,11 +14,13 @@ import closeness as c
 import AttackTopDegree as a
 import surround_ta as st
 import random_nodes as rs
-import grab_cluster as gc
+#import grab_cluster as gc
+import communities as c
 
 
 # STRATEGIES = [rs, rhd, hd, a, st, rc, c]
-STRATEGIES = [gc]
+STRATEGIES = [c]
+STRATEGY = c
 
 NUM_MATCHES = 50
 
@@ -38,7 +40,7 @@ def simulate_game(adj_list, node_mappings):
     generation = 1
     prev = None
 
-    while not sim.is_stable(generation, random.randint(100, 200), prev, node_color):
+    while not sim.is_stable(generation, 50, prev, node_color):
         node_color, prev = do_round(node_color, adj_list, prev)
         # then display the round
         generation += 1
@@ -65,24 +67,28 @@ if __name__ == '__main__':
 
     num_players, num_seeds, _ = parse.get_game_info_from_filename(fl.split("-")[0])
 
-    print "commencing simulation"
-    for i in range(10):
-        print "simulation", i
+    print "setting up"
+    setup = STRATEGY.setup(nxgraph, num_players, num_seeds)
+
+    for i in range(NUM_MATCHES):
+        # print "simulation", i
+        
         # make the output to simulate
         d = {}
         for n in players:
             d[n] = strategies[n][i]
-
-        for s in STRATEGIES:
-            # spoof our own strategy
-            setup = s.setup(nxgraph, num_players, num_seeds)
-            d['RogueEngineers'] = s.choose_nodes_from_graph(nxgraph, num_players, num_seeds, setup)
-            # show the start conditions
-            print "starting choices:", d['RogueEngineers']
         
-            # simulate it?
-            res = simulate_game(graph, d)
-            print 'RogueEngineers', res['RogueEngineers']
-            print res
-            #print res['strategy1'] > res['strategy2'], res
+        # spoof our own strategy
+        d['RogueEngineers'] = STRATEGY.choose_nodes_from_graph(nxgraph, num_players, num_seeds, setup)
+        # show the start conditions
+        # print "starting choices:", d['RogueEngineers']
+        
+        # simulate it?
+        res = simulate_game(graph, d)
+        reslist = [res[v] for v in res]
+        reslist.sort()
+        reslist.reverse()
+        #print 'RogueEngineers', res['RogueEngineers'], 'place:', reslist.index(res['RogueEngineers'])
+        print res['RogueEngineers'], 'place:', reslist.index(res['RogueEngineers'])
+        #print res['strategy1'] > res['strategy2'], res
 
