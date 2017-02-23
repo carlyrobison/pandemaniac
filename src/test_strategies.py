@@ -15,7 +15,8 @@ import AttackTopDegree as a
 import surround_ta as st
 import random_nodes as rs
 #import grab_cluster as gc
-import communities as c
+import communities_b as c
+import largest_clique as lc
 
 
 # STRATEGIES = [rs, rhd, hd, a, st, rc, c]

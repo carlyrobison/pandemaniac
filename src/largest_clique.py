@@ -18,12 +18,12 @@ def setup(graph, num_players, num_seeds):
     #print nx.find_cliques(selected_comm)
 
 
-def choose_nodes_from_graph(graph, num_players, num_seeds, setup):
-    leftover = num_seeds - len(setup)
+def choose_nodes_from_graph(graph, num_players, num_seeds, setup2):
+    leftover = num_seeds - len(setup2)
     if leftover > 0:
-        lst = setup + r.sample(graph.nodes(), leftover)
+        lst = setup2 + r.sample(graph.nodes(), leftover)
     else:
-        lst = r.sample(setup, num_seeds)
+        lst = r.sample(setup2, num_seeds)
     return lst
 
 if __name__ == '__main__':

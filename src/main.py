@@ -30,6 +30,10 @@ if __name__ == '__main__':
         import random_closeness as s
     elif strategy == 'hardcoded':
         import hardcoded as s
+    elif strategy == 'win':
+        import communities as s
+    elif strategy == 'lose':
+        import communities_b as s
 
     setup = s.setup(g, num_players, num_seeds)
     rounds = []

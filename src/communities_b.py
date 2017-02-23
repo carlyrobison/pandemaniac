@@ -55,26 +55,25 @@ def setup(g, num_players, num_seeds):
 
     # get one node from every clique
     #print selected_comm.number_of_nodes()
-    max_size_clique = nx.graph_clique_number(selected_comm)
-    print max_size_clique
-    lst = []
-    for cl in nx.find_cliques(selected_comm):
-        if len(cl) >= max_size_clique/2:
-            lst.append(r.choice(cl))
-            #return cl
-            #print len(cl), cl
-    return lst
+    # max_size_clique = nx.graph_clique_number(selected_comm)
+    # print max_size_clique
+    # lst = []
+    # for cl in nx.find_cliques(selected_comm):
+    #     if len(cl) >= max_size_clique/2:
+    #         lst.append(r.choice(cl))
+    #         #return cl
+    #         #print len(cl), cl
+    # return lst
     #print nx.find_cliques(selected_comm)
 
     #setup = largest_clique.setup(selected_comm, num_players, num_seeds)
     #return setup
 
-    #return selected_comm
+    return strat.setup(selected_comm, num_players, num_seeds)
 
 
 # Picks the highest closeness-centrality nodes in the graph.
 def choose_nodes_from_graph(g, num_players, num_seeds, setup):
-    # setup2 = strat.setup(setup, 2, num_seeds)
-    # top_nodes = r.sample(strat.choose_nodes_from_graph(setup, 2, num_seeds + EXTRA, setup2), num_seeds)
-    # return top_nodes
+    top_nodes = r.sample(strat.choose_nodes_from_graph(g, 2, num_seeds + EXTRA, setup), num_seeds)
+    return top_nodes
     return largest_clique.choose_nodes_from_graph(g, num_players, num_seeds, setup)
